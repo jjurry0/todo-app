@@ -4,7 +4,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useState } from "react";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -12,10 +12,6 @@ const HomeScreen = () => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text style={{fontSize: 40, fontWeight : "bold"}}>메인 화면</Text>
-      <Button 
-        title="할 일 작성"
-        onPress={() => navigation.navigate("TodoWrite")}
-      />
     </View>
   );
 };
@@ -90,49 +86,85 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+
+  const tabConfig = [
+    {
+      name: "Home",
+      title: "메인 화면",
+      component: HomeScreen,
+      focusedIcon: "home-variant",
+      unfocusedIcon: "home-variant-outline",
+      iconComponent: MaterialCommunityIcons
+    },
+    {
+      name: "TodoSearch",
+      title: "할 일 검색",
+      component: TodoSearchScreen,
+      focusedIcon: "search-sharp",
+      unfocusedIcon: "search-outline",
+      iconComponent: Ionicons,
+    },
+    {
+      name: "TodoWrite",
+      title: "할 일 작성",
+      component: TodoWriteScreen,
+      focusedIcon: "application-edit",
+      unfocusedIcon: "application-edit-outline",
+      iconComponent: MaterialCommunityIcons
+    },
+    {
+      name: "TodoList",
+      title: "할 일 리스트",
+      component: TodoListScreen,
+      focusedIcon: "list-sharp",
+      unfocusedIcon: "list-outline",
+      iconComponent: MaterialCommunityIcons
+    },
+    {
+      name: "MyPage",
+      title: "마이페이지",
+      component: MyPageScreen,
+      focusedIcon: "person-circle-sharp",
+      unfocusedIcon: "person-circle-outline",
+      iconComponent: Ionicons
+    },
+  ]
+
+  const screenOptions = ({route}) => ({
+    tabBarIcon: ({focused, color, size}) => {
+      const routeConfig = tabConfig.find((config) => config.name == route.name);
+
+      const iconName = focused ? routeConfig.foucusedIcon : routeConfig.unfocusedIcon;
+      const IconComponent = routeConfig.iconComponent;
+      
+      return <IconComponent name={iconName} color={color} size={size}/>
+    },
+    tabBarLabelStyle: {
+      fontSize: 12,
+      paddingTop: 10,
+      paddingBottom: 10,
+      fontWeight: "bold",
+    },
+    tabBarStyle: {
+      height: 100,
+    },
+    tabBarInactiveTintColor: "#0163d2",
+    tabBarActiveTintColor: "black",
+  });
+
   return (
       <NavigationContainer>
         <Tab.Navigator 
-          screenOptions={({route}) => ({
-            tabBarLabelStyle: {
-              fontSize: 12,
-              paddingTop: 10,
-              paddingBottom: 10,
-              fontWeight: "bold",
-            },
-            tabBarStyle: {
-              height: 100,
-            },
-            tabBarInactiveTintColor: "#0163d2",
-            tabBarActiveTintColor: "black",
-            tabBarIcon: ({color, size}) => {
-              let iconName;
-
-              if(route.name == "Home") {
-                iconName = "home-variant";
-              }
-              else if((route.name == "TodoSearch")) {
-                iconName = "text-search";
-              }
-              else if((route.name == "TodoWrite")) {
-                iconName = "note-edit";
-              }
-              else if((route.name == "TodoList")) {
-                iconName = "view-list";
-              }
-              else if((route.name == "MyPage")) {
-                iconName = "account-circle";
-              }
-
-              return <MaterialCommunityIcons name={iconName} size={30} color={color}/>
-            },
-          })}
+          screenOptions={screenOptions}
         >
-          <Tab.Screen name="Home" component={HomeScreen} options={{title: "메인 홈",}}/>
-          <Tab.Screen name="TodoSearch" component={TodoSearchScreen} options={{title: "할 일 검색",}}/>
-          <Tab.Screen name="TodoWrite" component={TodoWriteScreen} options={{title: "할 일 작성",}}/>
-          <Tab.Screen name="TodoList" component={TodoListScreen} options={{title: "할 일 리스트",}}/>
-          <Tab.Screen name="MyPage" component={MyPageScreen} options={{title: "마이페이지",}}/>
+          {tabConfig.map((routeConfig) => (
+            <Tab.Screen 
+              key = {routeConfig.name} 
+              name={routeConfig.name} 
+              component={routeConfig.component} 
+              options={{title: routeConfig.title}}
+            />
+          ))}
         </Tab.Navigator>
       </NavigationContainer>
   );
