@@ -20,14 +20,28 @@ export default function App() {
       
       return <IconComponent name={iconName} color={color} size={size}/>
     },
+    headerTitleAlign: "center",
+    headertitlestyle: {
+      fontSize: 20,
+      fontWeight: "bold",
+    },
+    headerStyle: {
+      //Android
+      elevation: 10,
+
+      //ios
+      shadowColor: "Black",
+      shadowOpacity: 0.3,
+      shadowOffset: { width: 0, height: 2 },
+      shadowRadius: 4,
+    },
     tabBarLabelStyle: {
       fontSize: 12,
-      paddingTop: 10,
       paddingBottom: 10,
       fontWeight: "bold",
     },
     tabBarStyle: {
-      height: 100,
+      height: 60,
     },
     tabBarInactiveTintColor: "#0163d2",
     tabBarActiveTintColor: "black",
