@@ -72,12 +72,16 @@ const TodoWriteScreen = ({ navigation }) => {
 }
 
 const DetailScreen =({ navigation, route }) => {
-  const { todo } = route.params;
+  const todo = route.params?.todo;
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center"}}>
-      <Text style={{ fontSize: 40, fontWeight: "bold"}}>상세보기 화면</Text>
-      <Text style={{ fontSize: 20, fontWeight: "bold"}}>할 일: { todo }</Text>
+      <Text style={{ fontSize: 40, fontWeight: "bold"}}>
+        상세보기 화면
+      </Text>
+      <Text style={{ fontSize: 20, fontWeight: "bold"}}>
+        할 일 : {todo}
+      </Text>
       <Button title="홈 화면으로 이동" onPress={() => navigation.navigate("Home")}/>
       <Button title="상세보기 화면으로 이동" onPress={() => navigation.navigate("Details")}/>
     </View>
@@ -89,8 +93,29 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={HomeScreen}/>
+        <Stack.Navigator initialRouteName="Home"
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: "f4511e",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <Pressable onPress={() => alert("클릭됨")}>
+                <Text style={{color: "#fff", fontWeight: "bold"}}>Menu</Text>
+              </Pressable>
+            ),
+          }}
+          >
+          <Stack.Screen 
+            name="Home" 
+            component={HomeScreen} 
+            options={{
+              title: "메인 홈",
+            }}
+          />
           <Stack.Screen name="TodoWrite" component={TodoWriteScreen}/>
           <Stack.Screen name="Details" component={DetailScreen}/>
         </Stack.Navigator>
