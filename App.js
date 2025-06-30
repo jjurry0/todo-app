@@ -29,7 +29,7 @@ export default function App() {
       //Android
       elevation: 10,
 
-      //ios
+      //IOS
       shadowColor: "Black",
       shadowOpacity: 0.3,
       shadowOffset: { width: 0, height: 2 },
