@@ -1,20 +1,6 @@
 import { Text, View, TextInput, Pressable, StyleSheet, Alert } from 'react-native';
 import React, { useState, useRef } from 'react';
-
-function dateToStr(d) {
-  const pad = (n) => {
-    return n < 10 ? "0" +n : n;
-  };
-
-  return (
-    d.getFullYear() + "-" +
-    pad(d.getMonth() + 1) + "-" +
-    pad(d.getDate()) + "-" +
-    pad(d.getHours()) + "-" +
-    pad(d.getMinutes()) + "-" +
-    pad(d.getSeconds())
-  );
-}
+import { dateToStr } from '../utils/util';
 
 const useTodoState = () => {
   const [todos, setTodos] = useState([]);
