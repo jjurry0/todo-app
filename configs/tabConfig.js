@@ -35,7 +35,7 @@ const tabConfig = [{
       component: TodoListScreen,
       focusedIcon: "list-sharp",
       unfocusedIcon: "list-outline",
-      iconComponent: MaterialCommunityIcons
+      iconComponent: Ionicons
     },
     {
       name: "MyPage",
