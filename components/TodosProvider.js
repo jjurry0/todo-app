@@ -40,7 +40,8 @@ export const TodosProvider = ({children}) => {
   };
 
   const removeTodo = (id) => {
-
+    const newTodos = todos.filter((todo) => todo.id != id);
+    setTodos(newTodos);
   }
 
   return (

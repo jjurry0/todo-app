@@ -10,7 +10,7 @@ const TodoListScreen = ({ route }) => {
     {
     Alert.alert("경고", "정말 삭제하시겠습니까?", 
       [
-        { text: "삭제", opPress: () => {
+        { text: "삭제", onPress: () => {
             removeTodo(id);
             reset();
           }, 
