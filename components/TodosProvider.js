@@ -42,10 +42,18 @@ export const TodosProvider = ({children}) => {
   const removeTodo = (id) => {
     const newTodos = todos.filter((todo) => todo.id != id);
     setTodos(newTodos);
-  }
+  };
+
+  const modifyTodo = (id, newContent) => {
+    const newTodos = todos.map((todo) => 
+      todo.id === id ? { ...todo, content: newContent } : todo
+    );
+
+    setTodos(newTodos);
+};
 
   return (
-    <TodosContext.Provider value={{todos, addTodo, removeTodo}}>
+    <TodosContext.Provider value={{ todos, addTodo, removeTodo, modifyTodo }}>
       {children}
     </TodosContext.Provider>
   );

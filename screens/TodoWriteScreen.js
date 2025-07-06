@@ -7,7 +7,7 @@ const TodoWriteScreen = ({ navigation }) => {
 
   const {addTodo} = useContext(TodosContext);
 
-  const headleAddTodo = () => {
+  const handleAddTodo = () => {
     if(!todo.trim()) {
       Alert.alert("할 일을 입력해주세요.");
       return;
@@ -38,7 +38,7 @@ const TodoWriteScreen = ({ navigation }) => {
       >
         <Pressable
           style={styles.pressableBtn}
-          onPress={headleAddTodo}
+          onPress={handleAddTodo}
         >
           <Text style = {styles.text}> 작성 </Text>
         </Pressable>
