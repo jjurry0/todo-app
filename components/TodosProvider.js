@@ -14,8 +14,44 @@ export const TodosProvider = ({children}) => {
       id: 2,
       content: "공부하기",
       regDate: dateToStr(new Date())
-    },{
+    },
+    {
       id: 3,
+      content: "자기",
+      regDate: dateToStr(new Date())
+    },
+    {
+      id: 4,
+      content: "자기",
+      regDate: dateToStr(new Date())
+    },
+    {
+      id: 5,
+      content: "자기",
+      regDate: dateToStr(new Date())
+    },
+    {
+      id: 6,
+      content: "자기",
+      regDate: dateToStr(new Date())
+    },
+    {
+      id: 7,
+      content: "자기",
+      regDate: dateToStr(new Date())
+    },
+    {
+      id: 8,
+      content: "자기",
+      regDate: dateToStr(new Date())
+    },
+    {
+      id: 9,
+      content: "자기",
+      regDate: dateToStr(new Date())
+    },
+    {
+      id: 10,
       content: "자기",
       regDate: dateToStr(new Date())
     },

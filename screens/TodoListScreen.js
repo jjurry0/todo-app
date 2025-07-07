@@ -1,11 +1,11 @@
-import { Text, TextInput, View, StyleSheet, Pressable, Alert, Modal, TouchableOpacity } from "react-native";
+import { Text, TextInput, View, StyleSheet, Pressable, Alert, Modal, TouchableOpacity, FlatList } from "react-native";
 import React, { useState, useContext } from "react";
 import TodosContext from "../components/TodosProvider"
 import { ListItem, Icon, Button } from "@rneui/themed";
 
 const TodoListItem = ({ todo, onModifyTodo, onRemoveTodo }) => {
   return (
-    <View key={todo.id}
+    <View
       style={{
         marginVertical: 5,
         marginHorizontal: 10,
@@ -138,9 +138,17 @@ const TodoListScreen = () => {
   return (
     <View style={styles.todoListContainer}>
       {todos.length > 0 ? (
-        todos.map((todo) => (
-          <TodoListItem todo={todo} onModifyTodo={openModifyModal} onRemoveTodo={handleRemoveTodo} />
-        ))
+        <FlatList
+          data={todos}
+          renderItem={({ item }) => (
+            <TodoListItem
+              todo={item}
+              onModifyTodo={openModifyModal}
+              onRemoveTodo={handleRemoveTodo}
+            />
+          )}
+          keyExtractor={item => item.id.toString()}
+        />
       ) : (
         <Text style={{ fontSize: 20, fontWeight: "bold" }}>할 일이 없습니다.</Text>
       )}
