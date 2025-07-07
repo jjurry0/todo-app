@@ -1,67 +1,16 @@
 import React, { useState, useRef, createContext } from "react";
 import { dateToStr } from '../utils/util';
+import TestTodoData from "./TestTodoData";
+import testTodosData from "./TestTodoData";
 
 const TodosContext = createContext();
 
 export const TodosProvider = ({children}) => {
-  const testTodo = [
-    {
-      id: 1,
-      content: "테니스 치기",
-      regDate: dateToStr(new Date())
-    },
-    {
-      id: 2,
-      content: "공부하기",
-      regDate: dateToStr(new Date())
-    },
-    {
-      id: 3,
-      content: "자기",
-      regDate: dateToStr(new Date())
-    },
-    {
-      id: 4,
-      content: "자기",
-      regDate: dateToStr(new Date())
-    },
-    {
-      id: 5,
-      content: "자기",
-      regDate: dateToStr(new Date())
-    },
-    {
-      id: 6,
-      content: "자기",
-      regDate: dateToStr(new Date())
-    },
-    {
-      id: 7,
-      content: "자기",
-      regDate: dateToStr(new Date())
-    },
-    {
-      id: 8,
-      content: "자기",
-      regDate: dateToStr(new Date())
-    },
-    {
-      id: 9,
-      content: "자기",
-      regDate: dateToStr(new Date())
-    },
-    {
-      id: 10,
-      content: "자기",
-      regDate: dateToStr(new Date())
-    },
-  ]
-
   //const [todos, setTodos] = useState([]);
   //const lastTodoIdRef = useRef(0);
 
-  const [todos, setTodos] = useState([...testTodo]);
-  const lastTodoIdRef = useRef(testTodo.length );
+  const [todos, setTodos] = useState([...testTodosData]);
+  const lastTodoIdRef = useRef(testTodosData.length );
 
   const addTodo = (newContent) => {
     const id = ++lastTodoIdRef.current;
