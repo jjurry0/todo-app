@@ -1,23 +1,39 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text, StatusBar, View, Dimensions } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from "react";
 import tabConfig from './configs/tabConfig';
 import { TodosProvider } from "./components/TodosProvider";
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+const {width, height} = Dimensions.get("window");
+
+const CustomHeader = ({ title }) => {
+  return (
+    <>
+      <SafeAreaView style={styles.safeArea}>
+        <StatusBar barStyle="dark-content" backgroundColor={"#fff"} />
+        <View style={styles.headerBox}>
+          <Text style={styles.headerTitle}>{title}</Text>
+        </View>
+      </SafeAreaView>
+    </>
+  )
+}
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  const screenOptions = ({route}) => ({
-    tabBarIcon: ({focused, color, size}) => {
+  const screenOptions = ({ route }) => ({
+    tabBarIcon: ({ focused, color, size }) => {
       const routeConfig = tabConfig.find((config) => config.name == route.name);
 
       const iconName = focused ? routeConfig.focusedIcon : routeConfig.unfocusedIcon;
       const IconComponent = routeConfig.iconComponent;
-      
-      return <IconComponent name={iconName} color={color} size={size}/>
+
+      return <IconComponent name={iconName} color={color} size={size} />
     },
     headerTitleAlign: "center",
     headertitleStyle: {
@@ -49,15 +65,18 @@ export default function App() {
   return (
     <TodosProvider>
       <NavigationContainer>
-        <Tab.Navigator 
+        <Tab.Navigator
           screenOptions={screenOptions}
         >
           {tabConfig.map((routeConfig) => (
-            <Tab.Screen 
-              key = {routeConfig.name} 
-              name={routeConfig.name} 
-              component={routeConfig.component} 
-              options={{title: routeConfig.title}}
+            <Tab.Screen
+              key={routeConfig.name}
+              name={routeConfig.name}
+              component={routeConfig.component}
+              options={{
+                title: routeConfig.title,
+                header: () => <CustomHeader title={routeConfig.title} />
+              }}
             />
           ))}
         </Tab.Navigator>
@@ -73,4 +92,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  headerBox: {
+    height: height * 0.05,
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "flex-end",
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginRight: 15,
+  }
 });
