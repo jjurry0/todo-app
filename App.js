@@ -121,5 +121,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     marginRight: 15,
+    fontFamily: "gmarketsans-font",
   }
 });

@@ -2,11 +2,13 @@ import { Text, TextInput, View, StyleSheet, Pressable, Alert, Modal, TouchableOp
 import React, { useState, useContext } from "react";
 import TodosContext from "../components/TodosProvider"
 import { ListItem, Icon, Button } from "@rneui/themed";
+import AppLoadingContext from '../components/AppLoadingProvider';
 
 const { width, height } = Dimensions.get("window");
 
 const TodoListItem = ({ todo, onModifyTodo, onRemoveTodo }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const { fontsLoaded } = useContext(AppLoadingContext);
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
@@ -202,6 +204,7 @@ const styles = StyleSheet.create({
   modifyInput: {
     padding: 10,
     fontSize: 20,
+    fontFamily: "gmarketsans-font",
   },
   modalBtnBox: {
     paddingVertical: 10,
@@ -214,6 +217,7 @@ const styles = StyleSheet.create({
   modalBtnText: {
     fontSize: 18,
     fontWeight: "bold",
+    fontFamily: "gmarketsans-font",
   },
 })
 

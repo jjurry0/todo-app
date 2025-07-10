@@ -1,14 +1,17 @@
-import { Text, View, TextInput, Pressable, StyleSheet, Alert } from 'react-native';
+import { Text, View, TextInput, Pressable, StyleSheet, Alert, Dimensions } from 'react-native';
 import React, { useContext, useState } from 'react';
 import TodosContext from "../components/TodosProvider";
+import AppLoadingContext from '../components/AppLoadingProvider';
+
+const { width, height } = Dimensions.get("window");
 
 const TodoWriteScreen = ({ navigation }) => {
   const [todo, setTodo] = useState("");
-
-  const {addTodo} = useContext(TodosContext);
+  const { addTodo } = useContext(TodosContext);
+  const { fontsLoaded } = useContext(AppLoadingContext);
 
   const handleAddTodo = () => {
-    if(!todo.trim()) {
+    if (!todo.trim()) {
       Alert.alert("할 일을 입력해주세요.");
       return;
     }
@@ -20,13 +23,15 @@ const TodoWriteScreen = ({ navigation }) => {
 
   return (
     <>
-      <TextInput
-        multiline
-        onChangeText={setTodo}
-        value={todo}
-        placeholder="할 일을 작성해주세요."
-        style={styles.inputBox}
-      />
+      <View style={styles.inputBox}>
+        <TextInput
+          multiline
+          onChangeText={setTodo}
+          value={todo}
+          placeholder="할 일을 작성해주세요."
+          style={styles.textInput}
+        />
+      </View>
       <View
         style={{
           flexDirection: "row",
@@ -36,11 +41,8 @@ const TodoWriteScreen = ({ navigation }) => {
           marginRight: 10,
         }}
       >
-        <Pressable
-          style={styles.pressableBtn}
-          onPress={handleAddTodo}
-        >
-          <Text style = {styles.text}> 작성 </Text>
+        <Pressable style={styles.pressableBtn} onPress={handleAddTodo} >
+          <Text style={styles.text}> 작성 </Text>
         </Pressable>
         <Pressable
           style={styles.pressableBtn}
@@ -48,7 +50,7 @@ const TodoWriteScreen = ({ navigation }) => {
             navigation.navigate("Home");
           }}
         >
-          <Text style = {styles.text}> 취소 </Text>
+          <Text style={styles.text}> 취소 </Text>
         </Pressable>
       </View>
     </>
@@ -57,14 +59,17 @@ const TodoWriteScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   inputBox: {
-    minHeight: 200,
+    minHeight: height * 0.25,
     padding: 10,
     backgroundColor: "#fff",
     borderRadius: 10,
     borderWidth: 2,
     margin: 10,
+  },
+  textInput: {
     fontSize: 20,
     fontWeight: "bold",
+    fontFamily: "gmarketsans-font",
   },
   pressableBtn: {
     width: "40%",
@@ -78,6 +83,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     fontWeight: "bold",
+    fontFamily: "gmarketsans-font"
   }
 });
 
