@@ -2,23 +2,13 @@ import { StyleSheet, Text, StatusBar, View, Dimensions } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import tabConfig from './configs/tabConfig';
 import { TodosProvider } from "./components/TodosProvider";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import * as SplashScreen from 'expo-splash-screen';
-import * as Font from 'expo-font';
+import AppLoadingContext, { AppLoadingProvider } from './components/AppLoadingProvider';
 
 const { width, height } = Dimensions.get("window");
-
-//스플래시 스크린이 자동으로 숨겨지지 않게 설정
-SplashScreen.preventAutoHideAsync();
-
-const fetchFonts = () => {
-  return Font.loadAsync({
-    "gmarketsans-font": require("./assets/fonts/GmarketSansTTFMedium.ttf"),
-  })
-}
 
 const CustomHeader = ({ title }) => {
   return (
@@ -36,21 +26,8 @@ const CustomHeader = ({ title }) => {
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-export default function App() {
-  const [fontsLoaded, setFontLoaded] = useState(false);
-  useEffect(() => {
-    const loadFonts = async () => {
-      try {
-        await fetchFonts(); //폰트 로드
-      } catch (e) {
-        console.warn(e); //폰트 로드 중 오류 발생 시 경고
-      } finally {
-        setFontLoaded(true);
-        SplashScreen.hideAsync(); //폰트 로드 완료 시 스플래시 스크린 숨김
-      }
-    };
-    loadFonts();
-  }, []);
+const AppWithNavigation = () => {
+  const { fontsLoaded } = useContext(AppLoadingContext)
 
   if (!fontsLoaded) {
     return null;
@@ -58,7 +35,9 @@ export default function App() {
 
   const screenOptions = ({ route }) => ({
     tabBarIcon: ({ focused, color, size }) => {
-      const routeConfig = tabConfig.find((config) => config.name == route.name);
+      const routeConfig = tabConfig.find(
+        (config) => config.name == route.name
+      );
 
       const iconName = focused ? routeConfig.focusedIcon : routeConfig.unfocusedIcon;
       const IconComponent = routeConfig.iconComponent;
@@ -66,7 +45,7 @@ export default function App() {
       return <IconComponent name={iconName} color={color} size={size} />
     },
     headerTitleAlign: "center",
-    headertitleStyle: {
+    headerTitleStyle: {
       fontSize: 20,
       fontWeight: "bold",
     },
@@ -75,7 +54,7 @@ export default function App() {
       elevation: 10,
 
       //IOS
-      shadowColor: "Black",
+      shadowColor: "black",
       shadowOpacity: 0.3,
       shadowOffset: { width: 0, height: 2 },
       shadowRadius: 4,
@@ -94,25 +73,34 @@ export default function App() {
   });
 
   return (
-    <TodosProvider>
-      <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={screenOptions}
-        >
-          {tabConfig.map((routeConfig) => (
-            <Tab.Screen
-              key={routeConfig.name}
-              name={routeConfig.name}
-              component={routeConfig.component}
-              options={{
-                title: routeConfig.title,
-                header: () => <CustomHeader title={routeConfig.title} />
-              }}
-            />
-          ))}
-        </Tab.Navigator>
-      </NavigationContainer>
-    </TodosProvider>
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={screenOptions}
+      >
+        {tabConfig.map((routeConfig) => (
+          <Tab.Screen
+            key={routeConfig.name}
+            name={routeConfig.name}
+            component={routeConfig.component}
+            options={{
+              title: routeConfig.title,
+              header: () => <CustomHeader title={routeConfig.title} />
+            }}
+          />
+        ))}
+      </Tab.Navigator>
+    </NavigationContainer>
+  )
+}
+
+export default function App() {
+
+  return (
+    <AppLoadingProvider>
+      <TodosProvider>
+        <AppWithNavigation />
+      </TodosProvider>
+    </AppLoadingProvider>
   );
 }
 

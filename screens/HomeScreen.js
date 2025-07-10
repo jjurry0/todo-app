@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 import React from 'react';
 
-const backgroundImage = require("../assets/images/TodoappImage.png")
+const backgroundImage = require("../assets/images/TodoAppImg.png")
 
 const HomeScreen = () => {
   return (
